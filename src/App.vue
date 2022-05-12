@@ -11,72 +11,70 @@
       <div class="info" id="cninfo">
         <div>
           <p>现存确诊</p>
-          <p style="color: rgb(247, 76, 49)">
+          <p style="color: rgb(247, 76, 49);">
             {{ chinaData.currentConfirmedCount }}
           </p>
         </div>
         <div>
           <p>累计确诊</p>
-          <p style="color: rgb(247, 130, 7)">{{ chinaData.confirmedCount }}</p>
+          <p style="color: rgb(247, 130, 7);">{{ chinaData.confirmedCount }}</p>
         </div>
         <div>
           <p>死亡</p>
-          <p style="color: rgb(93, 112, 146)">{{ chinaData.deadCount }}</p>
+          <p style="color: rgb(93, 112, 146);">{{ chinaData.deadCount }}</p>
         </div>
         <div>
           <p>治愈</p>
-          <p style="color: rgb(40, 183, 163)">{{ chinaData.curedCount }}</p>
+          <p style="color: rgb(40, 183, 163);">{{ chinaData.curedCount }}</p>
         </div>
       </div>
 
-      <div class="info" id="worldinfo" style="display: none">
+      <div class="info" id="worldinfo" style="display: none;">
         <div>
           <p>现存确诊</p>
-          <p style="color: rgb(247, 76, 49)">
+          <p style="color: rgb(247, 76, 49);">
             {{ worldData.currentConfirmedCount }}
           </p>
         </div>
         <div>
           <p>累计确诊</p>
-          <p style="color: rgb(247, 130, 7)">{{ worldData.confirmedCount }}</p>
+          <p style="color: rgb(247, 130, 7);">{{ worldData.confirmedCount }}</p>
         </div>
         <div>
           <p>死亡</p>
-          <p style="color: rgb(93, 112, 146)">{{ worldData.deadCount }}</p>
+          <p style="color: rgb(93, 112, 146);">{{ worldData.deadCount }}</p>
         </div>
         <div>
           <p>治愈</p>
-          <p style="color: rgb(40, 183, 163)">{{ worldData.curedCount }}</p>
+          <p style="color: rgb(40, 183, 163);">{{ worldData.curedCount }}</p>
         </div>
       </div>
     </div>
     <div id="cnmap" class="map"></div>
     <div id="worldmap" class="map"></div>
     <div class="copyright">
-      <a target="_blank" href="https://idealclover.top"
-        >调用地图</a
-      >
+      <a target="_blank" href="https://idealclover.top">调用地图</a>
     </div>
   </div>
 </template>
 
 <script>
-import echarts from "echarts";
-import china from "echarts/map/json/china.json";
-echarts.registerMap("china", china);
-import world from "echarts/map/json/world.json";
-echarts.registerMap("world", world);
-import axios from "axios";
+import echarts from 'echarts'
+import china from 'echarts/map/json/china.json'
+echarts.registerMap('china', china)
+import world from 'echarts/map/json/world.json'
+echarts.registerMap('world', world)
+import axios from 'axios'
 
 export default {
   props: {},
   data() {
     return {
       chinaData: {
-        currentConfirmedCount: 0,
-        confirmedCount: 0,
-        deadCount: 0,
-        curedCount: 0,
+        currentConfirmedCount: 0, // 现有确诊
+        confirmedCount: 0, // 累计确诊
+        deadCount: 0, // 死亡
+        curedCount: 0, // 治愈
       },
       worldData: {
         currentConfirmedCount: 0,
@@ -87,27 +85,27 @@ export default {
 
       chinaDetailData: [],
       worldDetailData: [],
-    };
+    }
   },
   mounted() {
-    this.loadData();
+    this.loadData()
   },
   methods: {
     loadMap() {
-      var dom = document.getElementById("cnmap");
-      var myChart = echarts.init(dom, null, { renderer: "svg" });
+      var dom = document.getElementById('cnmap')
+      var myChart = echarts.init(dom, null, { renderer: 'svg' })
       const cnoption = {
-        bottom: "10px",
+        bottom: '10px',
         tooltip: {
           show: true,
-          trigger: "item",
+          trigger: 'item',
         },
         dataRange: {
-          x: "center",
-          orient: "horizontal",
+          x: 'center',
+          orient: 'horizontal',
           min: 0,
           max: 20000,
-          text: ["高", "低"], // 文本，默认为数值文本
+          text: ['高', '低'], // 文本，默认为数值文本
           splitNumber: 0,
           splitList: [
             { start: 1000, end: 999999 },
@@ -119,14 +117,14 @@ export default {
           ],
           inRange: {
             color: [
-              "#fff",
-              "#fff5c9",
-              "#FDEBCF",
-              "#F59E83",
-              "#F59E83",
-              "#CB2A2F",
-              "#e6ac53",
-              "#70161D",
+              '#fff',
+              '#fff5c9',
+              '#FDEBCF',
+              '#F59E83',
+              '#F59E83',
+              '#CB2A2F',
+              '#e6ac53',
+              '#70161D',
             ],
           },
         },
@@ -134,7 +132,7 @@ export default {
           {
             label: {
               normal: {
-                fontFamily: "Microsoft YaHei",
+                fontFamily: 'Microsoft YaHei',
                 fontSize: 9,
                 show: true,
               },
@@ -142,46 +140,46 @@ export default {
                 show: false,
               },
             },
-            name: "现存确诊",
-            type: "map",
-            mapType: "china",
+            name: '现存确诊',
+            type: 'map',
+            mapType: 'china',
             zoom: 1,
             itemStyle: {
               normal: {
                 borderWidth: 0.5, //区域边框宽度
-                borderColor: "#B6B6B6", //区域边框颜色
-                areaColor: "#ffefd5", //区域颜色
+                borderColor: '#B6B6B6', //区域边框颜色
+                areaColor: '#ffefd5', //区域颜色
               },
             },
             data: this.chinaDetailData,
           },
         ],
         animation: false,
-      };
-      myChart.setOption(cnoption, true);
+      }
+      myChart.setOption(cnoption, true)
 
-      var worldmapdom = document.getElementById("worldmap");
-      var worldChart = echarts.init(worldmapdom, null, { renderer: "svg" });
+      var worldmapdom = document.getElementById('worldmap')
+      var worldChart = echarts.init(worldmapdom, null, { renderer: 'svg' })
       const worldoption = {
-        bottom: "10px",
+        bottom: '10px',
         tooltip: {
           show: true,
-          trigger: "item",
+          trigger: 'item',
           formatter: function (val) {
-            console.log(val);
-            if (typeof val.data === "undefined")
-              val.data = { provinceName: val.name, value: "未知" };
+            console.log(val)
+            if (typeof val.data === 'undefined')
+              val.data = { provinceName: val.name, value: '未知' }
             return (
-              val.data.provinceName + "<br>" + "现存确诊: " + val.data.value
-            );
+              val.data.provinceName + '<br>' + '现存确诊: ' + val.data.value
+            )
           },
         },
         dataRange: {
-          x: "center",
-          orient: "horizontal",
+          x: 'center',
+          orient: 'horizontal',
           min: 0,
           max: 9999999,
-          text: ["高", "低"], // 文本，默认为数值文本
+          text: ['高', '低'], // 文本，默认为数值文本
           splitNumber: 0,
           splitList: [
             { start: 1000000, end: 999999999 },
@@ -193,12 +191,12 @@ export default {
           ],
           inRange: {
             color: [
-              "#FAEBD2",
-              "#D56355",
-              "#BB3937",
-              "#cb2a2f",
-              "#772526",
-              "#5e0a0b",
+              '#FAEBD2',
+              '#D56355',
+              '#BB3937',
+              '#cb2a2f',
+              '#772526',
+              '#5e0a0b',
             ],
           },
         },
@@ -206,7 +204,7 @@ export default {
           {
             label: {
               normal: {
-                fontFamily: "Microsoft YaHei",
+                fontFamily: 'Microsoft YaHei',
                 fontSize: 9,
                 show: false,
               },
@@ -214,80 +212,82 @@ export default {
                 show: false,
               },
             },
-            name: "现存确诊",
-            type: "map",
-            mapType: "world",
+            name: '现存确诊',
+            type: 'map',
+            mapType: 'world',
             zoom: 0.8,
             itemStyle: {
-              normal: { label: { show: true, color: "#333" }, borderWidth: 0 },
+              normal: { label: { show: true, color: '#333' }, borderWidth: 0 },
             },
             data: this.worldDetailData,
           },
         ],
         animation: false,
-      };
-      worldChart.setOption(worldoption, true);
-      worldChart.resize();
+      }
+      worldChart.setOption(worldoption, true)
+      worldChart.resize()
 
-      let worldmap = document.getElementById("worldmap");
-      let cnmap = document.getElementById("cnmap");
-      let cninfo = document.getElementById("cninfo");
-      let worldinfo = document.getElementById("worldinfo");
+      let worldmap = document.getElementById('worldmap')
+      let cnmap = document.getElementById('cnmap')
+      let cninfo = document.getElementById('cninfo')
+      let worldinfo = document.getElementById('worldinfo')
       // let btncn = document.getElementById("btn-cn");
       // let btnworld = document.getElementById("btn-world");
 
-      cnmap.style.display = "block";
-      worldmap.style.display = "none";
-      cninfo.style.display = "flex";
-      worldinfo.style.display = "none";
+      cnmap.style.display = 'block'
+      worldmap.style.display = 'none'
+      cninfo.style.display = 'flex'
+      worldinfo.style.display = 'none'
       // btncn.className = "button";
       // btnworld.className = "button btn-active";
     },
     loadData() {
-      axios.get("https://idealclover.cn/covidinfo.json?timestamp=" + Date.now()).then((response) => {
-        let data = response.data;
-        this.chinaData = data["china"];
-        this.worldData = data["world"];
-        this.chinaDetailData = data["chinaDetail"];
-        this.worldDetailData = data["worldDetail"];
-        this.loadMap();
-      });
+      axios
+        .get('https://idealclover.cn/covidinfo.json?timestamp=' + Date.now())
+        .then((response) => {
+          console.log(response)
+          let data = response.data
+          this.chinaData = data['china']
+          this.worldData = data['world']
+          this.chinaDetailData = data['chinaDetail']
+          this.worldDetailData = data['worldDetail']
+          this.loadMap()
+        })
     },
     showcn() {
-      let worldmap = document.getElementById("worldmap");
-      let cnmap = document.getElementById("cnmap");
-      let cninfo = document.getElementById("cninfo");
-      let worldinfo = document.getElementById("worldinfo");
-      let btncn = document.getElementById("btn-cn");
-      let btnworld = document.getElementById("btn-world");
-      cnmap.style.display = "block";
-      worldmap.style.display = "none";
-      cninfo.style.display = "flex";
-      worldinfo.style.display = "none";
-      btncn.className = "button btn-active";
-      btnworld.className = "button";
+      let worldmap = document.getElementById('worldmap')
+      let cnmap = document.getElementById('cnmap')
+      let cninfo = document.getElementById('cninfo')
+      let worldinfo = document.getElementById('worldinfo')
+      let btncn = document.getElementById('btn-cn')
+      let btnworld = document.getElementById('btn-world')
+      cnmap.style.display = 'block'
+      worldmap.style.display = 'none'
+      cninfo.style.display = 'flex'
+      worldinfo.style.display = 'none'
+      btncn.className = 'button btn-active'
+      btnworld.className = 'button'
     },
     showworld() {
-      let worldmap = document.getElementById("worldmap");
-      let cnmap = document.getElementById("cnmap");
-      let cninfo = document.getElementById("cninfo");
-      let worldinfo = document.getElementById("worldinfo");
-      let btncn = document.getElementById("btn-cn");
-      let btnworld = document.getElementById("btn-world");
-      worldmap.style.display = "block";
-      cnmap.style.display = "none";
-      cninfo.style.display = "none";
-      worldinfo.style.display = "flex";
-      btncn.className = "button";
-      btnworld.className = "button btn-active";
+      let worldmap = document.getElementById('worldmap')
+      let cnmap = document.getElementById('cnmap')
+      let cninfo = document.getElementById('cninfo')
+      let worldinfo = document.getElementById('worldinfo')
+      let btncn = document.getElementById('btn-cn')
+      let btnworld = document.getElementById('btn-world')
+      worldmap.style.display = 'block'
+      cnmap.style.display = 'none'
+      cninfo.style.display = 'none'
+      worldinfo.style.display = 'flex'
+      btncn.className = 'button'
+      btnworld.className = 'button btn-active'
     },
   },
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 #main {
   max-width: px;
   margin: auto;
@@ -347,10 +347,10 @@ a:focus {
   width: 100%;
 }
 
-.copyright,
+/* .copyright,
 .map {
   top: -65px;
-}
+} */
 
 .hide {
   display: none;
@@ -385,6 +385,7 @@ a:focus {
   color: #515a6e;
   background-color: #fff;
   border-color: #dcdee2;
+  margin: 0 5px;
 }
 
 .btn-active {

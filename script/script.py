@@ -1,8 +1,10 @@
+#coding=utf-8
+
 import time
 import json
 import requests
 
-DESC = "C:\\Users\\CuiRH\\GitHub\\Covid-19-Map\\public\\static\\info.json"
+DESC = "..\\public\\static\\info.json"
 
 overallRsp = requests.get("https://lab.isaaclin.cn/nCoV/api/overall?latest=1")
 overall = overallRsp.json()["results"][0]
